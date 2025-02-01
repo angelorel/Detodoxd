@@ -9,8 +9,15 @@
 <body>
     <div class="container">
         <h1>Cuestionario</h1>
-        <div id="quiz"></div>
-        <button id="submit">Enviar Respuestas</button>
+        <div id="quiz">
+            <!-- Aquí se mostrará la pregunta actual -->
+            <div id="question-container">
+                <div id="question"></div>
+                <div id="answers"></div>
+            </div>
+            <!-- Botón para avanzar a la siguiente pregunta -->
+            <button id="next-btn" style="display: none;">Siguiente</button>
+        </div>
         <div id="results"></div>
     </div>
     <script src="script.js"></script>
