@@ -1,0 +1,29 @@
+[
+    {
+        "question": "¿Cuál es la capital de Francia?",
+        "answers": [
+            {"text": "París", "correct": true},
+            {"text": "Madrid", "correct": false},
+            {"text": "Berlín", "correct": false},
+            {"text": "Roma", "correct": false}
+        ]
+    },
+    {
+        "question": "¿Cuál es el planeta más cercano al Sol?",
+        "answers": [
+            {"text": "Venus", "correct": false},
+            {"text": "Mercurio", "correct": true},
+            {"text": "Tierra", "correct": false},
+            {"text": "Marte", "correct": false}
+        ]
+    },
+    {
+        "question": "¿Quién escribió 'Cien años de soledad'?",
+        "answers": [
+            {"text": "Gabriel García Márquez", "correct": true},
+            {"text": "Pablo Neruda", "correct": false},
+            {"text": "Julio Cortázar", "correct": false},
+            {"text": "Mario Vargas Llosa", "correct": false}
+        ]
+    }
+]
