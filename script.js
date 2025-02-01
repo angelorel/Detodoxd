@@ -1,47 +1,68 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const quizContainer = document.getElementById('quiz');
+    const questionContainer = document.getElementById('question');
+    const answersContainer = document.getElementById('answers');
+    const nextButton = document.getElementById('next-btn');
     const resultsContainer = document.getElementById('results');
-    const submitButton = document.getElementById('submit');
+
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let questions = [];
 
     // Cargar las preguntas desde el archivo JSON
     fetch('questions.json')
         .then(response => response.json())
         .then(data => {
-            displayQuiz(data);
+            questions = data;
+            showQuestion();
         });
 
-    function displayQuiz(questions) {
-        let output = '';
+    function showQuestion() {
+        const currentQuestion = questions[currentQuestionIndex];
+        questionContainer.textContent = currentQuestion.question;
+        answersContainer.innerHTML = '';
 
-        questions.forEach((question, index) => {
-            output += `<div class="question">${index + 1}. ${question.question}</div>`;
-            question.answers.forEach(answer => {
-                output += `
-                    <label>
-                        <input type="radio" name="question${index}" value="${answer.correct}">
-                        ${answer.text}
-                    </label><br>
-                `;
-            });
+        currentQuestion.answers.forEach(answer => {
+            const button = document.createElement('button');
+            button.textContent = answer.text;
+            button.classList.add('answer-btn');
+            button.addEventListener('click', () => selectAnswer(answer.correct));
+            answersContainer.appendChild(button);
         });
 
-        quizContainer.innerHTML = output;
+        nextButton.style.display = 'none';
     }
 
-    submitButton.addEventListener('click', function() {
-        const answerContainers = quizContainer.querySelectorAll('.question');
-        let numCorrect = 0;
+    function selectAnswer(isCorrect) {
+        if (isCorrect) {
+            score++;
+        }
 
-        answerContainers.forEach((question, index) => {
-            const selector = `input[name="question${index}"]:checked`;
-            const userAnswer = (quizContainer.querySelector(selector) || {}).value;
-
-            if (userAnswer === 'true') {
-                numCorrect++;
+        // Deshabilitar todos los botones después de seleccionar una respuesta
+        const buttons = answersContainer.querySelectorAll('.answer-btn');
+        buttons.forEach(button => {
+            button.disabled = true;
+            if (button.textContent === questions[currentQuestionIndex].answers.find(a => a.correct).text) {
+                button.style.backgroundColor = '#4CAF50'; // Verde para la respuesta correcta
+            } else {
+                button.style.backgroundColor = '#FF5252'; // Rojo para respuestas incorrectas
             }
         });
 
-        resultsContainer.innerHTML = `Obtuviste ${numCorrect} de ${answerContainers.length} respuestas correctas.`;
-    });
-});
+        nextButton.style.display = 'block';
+    }
 
+    nextButton.addEventListener('click', () => {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+            showQuestion();
+        } else {
+            showResults();
+        }
+    });
+
+    function showResults() {
+        quizContainer.style.display = 'none';
+        resultsContainer.textContent = `Obtuviste ${score} de ${questions.length} respuestas correctas.`;
+    }
+});
