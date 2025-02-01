@@ -14,19 +14,42 @@ body {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    width: 300px;
+    width: 400px;
     text-align: center;
 }
 
 h1 {
     margin-bottom: 20px;
+    font-size: 24px;
 }
 
-.question {
-    margin-bottom: 15px;
+#question {
+    font-size: 20px;
+    margin-bottom: 20px;
 }
 
-button {
+#answers {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.answer-btn {
+    background-color: #4a148c; /* Morado más oscuro */
+    color: #fff;
+    border: none;
+    padding: 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: left;
+}
+
+.answer-btn:hover {
+    background-color: #7b1fa2; /* Morado más claro */
+}
+
+#next-btn {
     background-color: #4a148c; /* Morado más oscuro */
     color: #fff;
     border: none;
@@ -34,9 +57,10 @@ button {
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
+    margin-top: 20px;
 }
 
-button:hover {
+#next-btn:hover {
     background-color: #7b1fa2; /* Morado más claro */
 }
 
@@ -44,4 +68,3 @@ button:hover {
     margin-top: 20px;
     font-size: 18px;
 }
-
