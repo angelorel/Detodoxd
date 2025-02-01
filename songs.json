@@ -1,0 +1,32 @@
+[
+    {
+        "file": "se-que-te-duele.mp4",
+        "correctAnswer": "se que te duele",
+        "options": ["se que te duele", "Cómo te atreves", "Aprender a quererte", "Cuando nadie ve"]
+    },
+    {
+        "file": "besos-en-guerra.mp4",
+        "correctAnswer": "Besos en guerra",
+        "options": ["Besos en guerra", "Debí suponerlo", "En un solo día", "Salir con vida"]
+    },
+    {
+        "file": "preciento.mp4",
+        "correctAnswer": "preciento",
+        "options": ["preciento", "París", "506", "La última curiosidad"]
+    },
+    {
+        "file": "al-aire.mp4",
+        "correctAnswer": "al aire",
+        "options": ["al aire", "cuando nadie ve", "nunca te olvide", "besos en guerra"]
+    },
+    {
+        "file": "nunca-te-olvide.mp4",
+        "correctAnswer": "nunca te olvide",
+        "options": ["nunca te olvide", "paris", "506", "sair con vida"]
+    },
+    {
+        "file": "cuando-nadie-ve.mp4",
+        "correctAnswer": "cuando nadie ve",
+        "options": ["506", "cuando nadie ve", "la ultima curiosidad", "besos en guerra"]
+    }
+]
