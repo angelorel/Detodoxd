@@ -3,23 +3,187 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cuestionario Moradito</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Quiz Morat</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #4B0082;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 600px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            font-size: 1.2rem;
+            background-color: #9370DB;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #7B68EE;
+        }
+
+        #quiz-container, #password-container {
+            display: none;
+        }
+
+        .question {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        .options button {
+            width: 100%;
+            margin: 5px 0;
+        }
+
+        #resultado {
+            font-size: 1.5rem;
+            margin-top: 20px;
+        }
+
+        #reiniciar {
+            background-color: #FFD700;
+            color: #4B0082;
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            button {
+                font-size: 1rem;
+                padding: 10px;
+            }
+
+            .question {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <h1>Cuestionario</h1>
-        <div id="quiz">
-            <!-- Aquí se mostrará la pregunta actual -->
-            <div id="question-container">
-                <div id="question"></div>
-                <div id="answers"></div>
-            </div>
-            <!-- Botón para avanzar a la siguiente pregunta -->
-            <button id="next-btn" style="display: none;">Siguiente</button>
+        <div id="nombre-container">
+            <h1>Quiz de Morat 🎵</h1>
+            <input type="text" id="nombre" placeholder="Ingresa tu nombre">
+            <button onclick="comenzarQuiz()">Comenzar</button>
         </div>
-        <div id="results"></div>
+
+        <div id="quiz-container">
+            <div id="preguntas"></div>
+            <div id="resultado"></div>
+        </div>
+
+        <div id="password-container">
+            <input type="password" id="password" placeholder="Contraseña">
+            <button onclick="verificarPassword()">Reintentar</button>
+        </div>
     </div>
-    <script src="script.js"></script>
+
+    <script>
+        let preguntas = [
+            { pregunta: "¿En qué año se formó Morat?", opciones: ["2011", "2015", "2018", "2020"], correcta: 1 },
+            { pregunta: "¿Cuál fue su primer sencillo exitoso?", opciones: ["Cómo te atreves", "Mi nuevo vicio", "Cuando nadie ve", "506"], correcta: 0 },
+            { pregunta: "¿De qué país es originaria la banda?", opciones: ["México", "Colombia", "España", "Argentina"], correcta: 1 },
+            { pregunta: "¿Qué instrumento toca Juan Pablo Isaza?", opciones: ["Batería", "Guitarra", "Bajo", "Teclado"], correcta: 1 },
+            { pregunta: "¿Cómo se llama su primer álbum de estudio?", opciones: ["Sobre el amor y sus efectos secundarios", "Balas perdidas", "¿A dónde vamos?", "Morat"], correcta: 0 },
+            { pregunta: "¿Con qué artista colaboraron en 'Mi Nuevo Vicio'?", opciones: ["Shakira", "Paulina Rubio", "Thalía", "Nicky Jam"], correcta: 1 },
+            { pregunta: "¿Qué significa '506' en una de sus canciones?", opciones: ["Un código postal", "Un número de área", "La hora de un evento importante", "Un número de habitación"], correcta: 0 },
+            { pregunta: "¿Cuántos integrantes tiene la banda?", opciones: ["3", "4", "5", "6"], correcta: 1 },
+            { pregunta: "¿Qué premio importante ganaron en 2018?", opciones: ["Grammy", "Latin Grammy", "MTV Europe Music Award", "Premio Lo Nuestro"], correcta: 2 },
+            { pregunta: "¿Qué canción dedicaron a un fan fallecido?", opciones: ["Cuando nadie ve", "En un solo día", "Aprender a quererte", "No se va"], correcta: 1 },
+            { pregunta: "¿Qué idioma adicional al español usan en algunas canciones?", opciones: ["Inglés", "Francés", "Portugués", "Italiano"], correcta: 0 },
+            { pregunta: "¿Qué integrante es primo de otro miembro?", opciones: ["Juan Pablo", "Martín", "Simón", "Alejandro"], correcta: 0 },
+            { pregunta: "¿En qué universidad se conocieron?", opciones: ["Javeriana", "Los Andes", "Nacional", "Rosario"], correcta: 0 },
+            { pregunta: "¿Qué canción tiene colaboración con Danna Paola?", opciones: ["506", "No se va", "París", "Debí suponerlo"], correcta: 2 },
+            { pregunta: "¿Cómo se llama su álbum de 2022?", opciones: ["¿A dónde vamos?", "Sobre el amor...", "Balas perdidas", "Si antes era ahora"], correcta: 0 },
+            { pregunta: "¿Qué integrante toca el banjo?", opciones: ["Juan Pablo Villamil", "Martín Vargas", "Simón Vargas", "Juan Pablo Isaza"], correcta: 0 },
+            { pregunta: "¿Qué canción trata sobre relaciones a distancia?", opciones: ["506", "En un solo día", "Cuando nadie ve", "A dónde vamos"], correcta: 0 },
+            { pregunta: "¿Con qué artista colaboraron en 'Amor con hielo'?", opciones: ["Beret", "Danny Ocean", "Sebastián Yatra", "Mike Bahía"], correcta: 0 },
+            { pregunta: "¿Qué significa el nombre 'Morat'?", opciones: ["Un pueblo español", "Un tipo de planta", "Un apellido familiar", "Sin significado especial"], correcta: 0 },
+            { pregunta: "¿Qué premio ganaron en los Heat Latin Music Awards 2023?", opciones: ["Mejor grupo", "Mejor canción", "Mejor álbum", "Mejor video"], correcta: 0 }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let nombre = "";
+
+        function comenzarQuiz() {
+            nombre = document.getElementById('nombre').value.trim();
+            if (nombre === "") {
+                alert("Por favor ingresa tu nombre");
+                return;
+            }
+            document.getElementById('nombre-container').style.display = 'none';
+            document.getElementById('quiz-container').style.display = 'block';
+            mostrarPregunta();
+        }
+
+        function mostrarPregunta() {
+            let preguntaActual = preguntas[currentQuestion];
+            let html = `<h2 class="question">Pregunta ${currentQuestion + 1}: ${preguntaActual.pregunta}</h2>`;
+            preguntaActual.opciones.forEach((opcion, index) => {
+                html += `<button onclick="seleccionarRespuesta(${index})">${opcion}</button>`;
+            });
+            document.getElementById('preguntas').innerHTML = html;
+        }
+
+        function seleccionarRespuesta(opcion) {
+            if (opcion === preguntas[currentQuestion].correcta) score += 0.5;
+            currentQuestion++;
+            if (currentQuestion < preguntas.length) mostrarPregunta();
+            else mostrarResultado();
+        }
+
+        function mostrarResultado() {
+            document.getElementById('preguntas').style.display = 'none';
+            document.getElementById('resultado').innerHTML = `<h2>${nombre}, tu puntuación: ${score}/10</h2>`;
+            document.getElementById('password-container').style.display = 'block';
+        }
+    </script>
 </body>
 </html>
